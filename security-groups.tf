@@ -47,15 +47,7 @@ resource "aws_security_group" "sec-sg" {
     cidr_blocks = [module.network.vpc_cidr]
   }
 
-  ingress {
-    description      = "port 3306"
-    from_port        = 3306
-    to_port          = 3306
-    protocol         = "tcp"
-    cidr_blocks = [module.network.vpc_cidr]
-    security_groups = [aws_security_group.first-sg.id] ## making source is security group of the bastion host
-
-  }
+ 
 
   tags = {
     Name = "sec_sg"
@@ -85,5 +77,36 @@ resource "aws_security_group" "redis-sg" {
 
   tags = {
     Name = "redis_sg"
+  }
+}
+
+## add rds security group onlt to open port 3306 
+## and also inbound the bastion host security group
+
+resource "aws_security_group" "rds-sg" {
+  name        = "rds_sg"
+  description = "Allow ssh inbound traffic"
+  vpc_id      = module.network.vpc_id
+
+  ingress {
+    description      = "port 3306"
+    from_port        = 3306
+    to_port          = 3306
+    protocol         = "tcp"
+    cidr_blocks = [module.network.vpc_cidr]
+    security_groups = [aws_security_group.first-sg.id] 
+
+  }
+
+  
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "rds_sg"
   }
 }
