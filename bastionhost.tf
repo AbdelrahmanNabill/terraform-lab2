@@ -1,5 +1,5 @@
 resource "aws_instance" "bastion" {
-  ami           = "ami-03ededff12e34e59e"
+  ami           = "ami-0c4f7023847b90238"
   instance_type = var.instance_type
   subnet_id = module.network.lab-public-subnet-1
   vpc_security_group_ids = [aws_security_group.first-sg.id]
