@@ -4,8 +4,8 @@ resource "aws_instance" "web" {
   subnet_id = module.network.lab-private-subnet-1
   vpc_security_group_ids = [aws_security_group.sec-sg.id]
   associate_public_ip_address = false
-  key_name = aws_key_pair.ssh-key.key_name
-  tags = {
+  key_name = aws_key_pair.public_key_pair.key_name  
+    tags = {
     Name = "private-ec2"
   }
 }
