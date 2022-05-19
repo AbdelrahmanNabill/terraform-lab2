@@ -18,7 +18,7 @@ pipeline {
         stage('terraform apply') {
             steps {
                 withAWS(credentials: 'jenkins_aws'){
-                    sh 'terraform apply --auto-approve -var-file="prod.tfvars"'
+                    sh 'terraform apply --auto-approve -var-file="terraform-dev.tfvars"'
                 }
             }
         }
