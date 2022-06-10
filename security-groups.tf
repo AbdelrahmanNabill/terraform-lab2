@@ -47,7 +47,12 @@ resource "aws_security_group" "sec-sg" {
     cidr_blocks = [module.network.vpc_cidr]
   }
 
- 
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
 
   tags = {
     Name = "sec_sg"
